@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:khongmongkol/screen/item_screen.dart';
 import 'package:khongmongkol/screen/map/map1.dart';
+import 'package:khongmongkol/screen/map/map2.dart';
+import 'package:khongmongkol/screen/map/map3.dart';
 
 class WidJewel extends StatelessWidget {
   final Item item;
@@ -11,7 +13,7 @@ class WidJewel extends StatelessWidget {
       : super(key: key);
 
   // ฟังก์ชันเปิดแผนที่
-  void _openMapScreen(BuildContext context, String map_ad1) {
+  void _openMapScreen1(BuildContext context, String map_ad1) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -21,8 +23,29 @@ class WidJewel extends StatelessWidget {
     );
   }
 
+  void _openMapScreen2(BuildContext context, String map_ad2) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            MapScreen2(map_ad2: map_ad2), // ส่ง map_ad ที่ถูกต้อง
+      ),
+    );
+  }
+
+  void _openMapScreen3(BuildContext context, String map_ad3) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            MapScreen3(map_ad3: map_ad3), // ส่ง map_ad ที่ถูกต้อง
+      ),
+    );
+  }
+
   // Reusable method to create image and text rows with a map button
-  Widget buildImageTextRow(String imagePath, String text, String map_ad1) {
+  Widget buildImageTextRow(String imagePath, String text, String map_ad1,
+      String map_ad2, String map_ad3) {
     return Row(
       children: [
         ClipRRect(
@@ -51,11 +74,16 @@ class WidJewel extends StatelessWidget {
                     width: double.infinity, // ขยายปุ่มให้เต็มความกว้าง
                     child: ElevatedButton(
                       onPressed: () {
-                        _openMapScreen(
-                            newContext, map_ad1); // ส่ง map_ad ที่ถูกต้อง
+                        if (map_ad1.isNotEmpty) {
+                          _openMapScreen1(newContext, map_ad1);
+                        } else if (map_ad2.isNotEmpty) {
+                          _openMapScreen2(newContext, map_ad2);
+                        } else if (map_ad3.isNotEmpty) {
+                          _openMapScreen3(newContext, map_ad3);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(
+                        backgroundColor: const Color.fromARGB(
                             255, 229, 229, 229), // สีพื้นหลังของปุ่ม
                         padding: const EdgeInsets.symmetric(
                             vertical: 12), // เพิ่มความสูงปุ่ม
@@ -87,7 +115,7 @@ class WidJewel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'อัญมณีมงคล',
           style: TextStyle(color: Colors.white),
         ),
@@ -100,9 +128,9 @@ class WidJewel extends StatelessWidget {
   Widget _buildBodyContent() {
     List<Item> filteredItems = itemData
         .where((item) =>
-            (item.cateogory == 'gem1' ||
-                item.cateogory == 'gem2' ||
-                item.cateogory == 'gem3') &&
+            (item.cateogory == 'thing1' ||
+                item.cateogory == 'thing2' ||
+                item.cateogory == 'thing3') &&
             item.day == day)
         .toList();
 
@@ -159,10 +187,10 @@ class WidJewel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
-            const Color(0xFF000000),
-            const Color(0xFF737373),
+            Color(0xFF000000),
+            Color(0xFF737373),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -183,9 +211,9 @@ class WidJewel extends StatelessWidget {
 
           // แสดงชื่อ item
           Text(
-            name, // ใช้ filteredItem.name แทน
+            name,
             style: const TextStyle(
-              fontSize: 24, // ปรับขนาดตัวอักษรตามที่ต้องการ
+              fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
