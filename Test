@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:khongmongkol/screen/wid_khongmon.dart';
+import 'package:khongmongkol/screen/item_screen.dart';
+
+void main() {
+  // Mock item data for testing
+  final Item mockItem = Item(
+    name: 'Mock Item',
+    picture: 'assets/mock_item.png',
+    details: 'This is a mock item for testing.',
+    address1: 'Address 1',
+    address2: 'Address 2',
+    address3: 'Address 3',
+    map_ad1: 'https://maps.example.com/ad1',
+    map_ad2: '',
+    map_ad3: '',
+    category: 'thing1',
+    day: 'mon',
+  );
+
+  testWidgets('WidKhongmon widget displays item details correctly',
+      (WidgetTester tester) async {
+    // Build WidKhongmon widget with mock item
+    await tester.pumpWidget(MaterialApp(
+      home: WidKhongmon(item: mockItem, day: 'mon'),
+    ));
+
+    // Verify that the item name, details, and addresses are displayed
+    expect(find.text('Mock Item'), findsOneWidget);
+    expect(find.text('This is a mock item for testing.'), findsOneWidget);
+    expect(find.text('Address 1'), findsOneWidget);
+    expect(find.text('Address 2'), findsOneWidget);
+
+    // Verify that the map button is available for Address 1
+    expect(find.text('ดูแผนที่'), findsOneWidget);
+
+    // Tap on the map button and trigger navigation
+    await tester.tap(find.text('ดูแผนที่'));
+    await tester.pumpAndSettle();
+
+    // You would now write tests for the navigation behavior
+    // For example, checking if the correct screen is displayed
+  });
+}
